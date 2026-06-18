@@ -1,0 +1,304 @@
+/* Family Dinner Planner — mobile-first styles */
+
+:root {
+  --bg: #fdf8f3;
+  --card: #ffffff;
+  --ink: #2c2420;
+  --muted: #7a6f67;
+  --accent: #e07a3f;
+  --accent-dark: #c4632c;
+  --line: #ece3da;
+  --good: #4a9d6e;
+  --radius: 14px;
+  --shadow: 0 2px 10px rgba(60, 40, 20, 0.07);
+
+  /* cuisine colors */
+  --c-mexican: #d9534f;
+  --c-italian: #4a9d6e;
+  --c-american: #4b7bc4;
+  --c-ricebowl: #d98a2b;
+  --c-casserole: #8a5cc4;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  padding: 26px 16px 22px;
+  text-align: center;
+  padding-top: max(26px, env(safe-area-inset-top));
+}
+.app-header h1 { margin: 0; font-size: 1.7rem; }
+.tagline { margin: 4px 0 0; opacity: 0.9; font-size: 0.95rem; }
+
+/* ---------- Controls ---------- */
+.controls {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-top: 18px;
+}
+.control-row { display: flex; flex-direction: column; gap: 12px; }
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.98rem;
+  cursor: pointer;
+}
+.toggle input { width: 20px; height: 20px; accent-color: var(--accent); flex: none; }
+.toggle small { color: var(--muted); display: block; font-size: 0.8rem; }
+
+.cuisine-filter {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 16px 0;
+  padding: 12px;
+}
+.cuisine-filter legend { font-size: 0.85rem; color: var(--muted); padding: 0 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.primary-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.primary-btn:active { background: var(--accent-dark); }
+.filter-note { font-size: 0.8rem; color: var(--muted); text-align: center; margin: 10px 0 0; }
+
+/* ---------- Sections ---------- */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 26px 0 12px;
+}
+.section-head h2 { margin: 0; font-size: 1.3rem; }
+.ghost-btn {
+  background: transparent;
+  border: 1.5px solid var(--line);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 7px 13px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.ghost-btn:active { background: var(--line); }
+
+/* ---------- Plan list ---------- */
+.plan-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.meal-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+}
+.meal-day {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  padding: 12px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.meal-main { padding: 13px 14px; flex: 1; min-width: 0; }
+.meal-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.meal-title-row h3 { margin: 0; font-size: 1.08rem; }
+.meal-meta { color: var(--muted); font-size: 0.82rem; margin: 5px 0; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.badge {
+  background: #f4ece3;
+  color: var(--accent-dark);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.if-tip {
+  background: #eef6f1;
+  border-left: 3px solid var(--good);
+  color: #2f5e44;
+  font-size: 0.84rem;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin: 8px 0 4px;
+}
+.meal-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent-dark);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+/* ---------- Tags ---------- */
+.tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.tag-mexican { background: var(--c-mexican); }
+.tag-italian { background: var(--c-italian); }
+.tag-american { background: var(--c-american); }
+.tag-ricebowl { background: var(--c-ricebowl); }
+.tag-casserole { background: var(--c-casserole); }
+
+/* ---------- Swaps ---------- */
+.swaps-title { font-size: 1.05rem; margin: 24px 0 10px; }
+.swap-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.swap-card {
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 4px 12px;
+}
+.swap-card .link-btn { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; text-align: left; }
+.swap-card small { color: var(--muted); font-weight: 400; }
+.swap-empty { color: var(--muted); font-size: 0.9rem; }
+
+/* ---------- Grocery ---------- */
+.grocery-hint { color: var(--muted); font-size: 0.86rem; margin: 0 0 14px; }
+.grocery-group {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.grocery-group h4 {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-dark);
+}
+.grocery-group ul { list-style: none; padding: 0; margin: 0; }
+.grocery-item { border-bottom: 1px solid var(--line); }
+.grocery-item:last-child { border-bottom: none; }
+.grocery-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 2px;
+  cursor: pointer;
+}
+.grocery-check { width: 20px; height: 20px; accent-color: var(--good); flex: none; }
+.g-name { flex: 1; }
+.overlap {
+  font-size: 0.72rem;
+  color: var(--accent-dark);
+  background: #f4ece3;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.got-it .g-name { text-decoration: line-through; color: var(--muted); }
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 12, 6, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+}
+.modal-card {
+  background: var(--bg);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px 20px 0 0;
+  padding: 22px 18px calc(28px + env(safe-area-inset-bottom));
+  position: relative;
+  animation: slideUp 0.22s ease;
+}
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: var(--line);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+.modal-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-right: 38px; }
+.modal-title-row h2 { margin: 0; font-size: 1.4rem; }
+.modal-meta { color: var(--muted); font-size: 0.85rem; margin: 8px 0; }
+.modal-ingredients, .modal-steps { padding-left: 20px; }
+.modal-ingredients li, .modal-steps li { margin: 7px 0; }
+.ing-qty { font-weight: 700; color: var(--accent-dark); }
+.modal-body h3 { margin: 18px 0 6px; }
+
+/* ---------- Footer ---------- */
+.app-footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; }
+
+.hidden { display: none !important; }
+
+@media (min-width: 520px) {
+  .control-row { flex-direction: row; flex-wrap: wrap; }
+  .control-row .toggle { flex: 1 1 45%; }
+}

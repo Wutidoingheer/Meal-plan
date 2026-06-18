@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e07a3f" />
+  <title>Family Dinner Planner</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>🍽️ Dinner Planner</h1>
+    <p class="tagline">A fresh week of family dinners</p>
+  </header>
+
+  <main>
+    <!-- Controls -->
+    <section class="controls" id="controls">
+      <div class="control-row">
+        <label class="toggle">
+          <input type="checkbox" id="kidOnly" />
+          <span>Kid-friendly only <small>(Wesley eats the same)</small></span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="ifMode" />
+          <span>IF / calorie-cut tips <small>(for mom)</small></span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="blackstoneOnly" />
+          <span>Blackstone-friendly only</span>
+        </label>
+      </div>
+
+      <fieldset class="cuisine-filter">
+        <legend>Include cuisines</legend>
+        <div id="cuisineChips" class="chips"></div>
+      </fieldset>
+
+      <button id="generateBtn" class="primary-btn">🎲 Generate the week</button>
+      <p class="filter-note" id="filterNote">No seafood · no berries — always filtered out.</p>
+    </section>
+
+    <!-- Weekly plan -->
+    <section id="planSection" class="plan-section hidden">
+      <div class="section-head">
+        <h2>This week's dinners</h2>
+        <button id="reshuffleBtn" class="ghost-btn" title="Generate a new week">↻ Reshuffle</button>
+      </div>
+      <ol id="plan" class="plan-list"></ol>
+
+      <h3 class="swaps-title">Need a swap? Try one of these</h3>
+      <ul id="swaps" class="swap-list"></ul>
+    </section>
+
+    <!-- Grocery list -->
+    <section id="grocerySection" class="grocery-section hidden">
+      <div class="section-head">
+        <h2>🛒 Grocery list</h2>
+        <button id="clearChecksBtn" class="ghost-btn">Reset checks</button>
+      </div>
+      <p class="grocery-hint">Tick off what you already have so you only buy what's missing.</p>
+      <div id="grocery"></div>
+    </section>
+  </main>
+
+  <!-- Recipe modal -->
+  <div id="recipeModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button id="modalClose" class="modal-close" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>Made for the family · cook fresh, eat by 6 🕕</p>
+  </footer>
+
+  <script src="js/recipes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
