@@ -7,8 +7,14 @@ whiteboard calendar.
 
 ## What it does
 
-- **Generate a week** of 7 dinners with one tap, balanced across cuisines.
-- **Swap ideas** — a few extra meals to mix in.
+- **Generate a week** of 7 dinners with one tap, spread across ~6 cuisines for
+  variety.
+- **76 recipes** and growing.
+- **Pantry-first mode** — list what you already have and the generator builds the
+  week around it (and pre-checks those items on the grocery list).
+- **Cost & efficiency** — the generator also favors weeks where meals share
+  ingredients, so you buy less and waste less.
+- **Swap ideas** — a few extra meals to mix in, plus per-day swapping.
 - **Full recipes** — ingredients, steps, time, calories, servings.
 - **Grocery list** grouped by aisle, with checkboxes so you only buy what's
   missing. Items used in more than one meal are flagged (×N meals) so you don't
@@ -17,9 +23,11 @@ whiteboard calendar.
   cooking).
 - **IF / calorie-cut tips** toggle — an easy lower-calorie tweak for each meal.
 - **Blackstone-friendly** filter and badges for flattop nights.
-- **Cuisine filters** — Mexican, Italian, American, Rice Bowls, Casseroles.
+- **Cuisine filters** — Mexican, Italian, American, Rice Bowls, Mediterranean,
+  Asian.
 - **No seafood, no berries** — always filtered out.
-- Remembers your plan and grocery checkmarks between visits (localStorage).
+- Remembers your plan, pantry, and grocery checkmarks between visits
+  (localStorage).
 
 ## How to use it
 
@@ -45,7 +53,7 @@ recipe needs:
 {
   id: "unique-id",
   name: "Recipe Name",
-  cuisine: "mexican" | "italian" | "american" | "ricebowl" | "casserole",
+  cuisine: "mexican" | "italian" | "american" | "ricebowl" | "mediterranean" | "asian",
   time: 35,            // minutes
   servings: 4,
   calories: 600,       // per serving, approx

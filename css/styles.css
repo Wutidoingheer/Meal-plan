@@ -17,7 +17,8 @@
   --c-italian: #4a9d6e;
   --c-american: #4b7bc4;
   --c-ricebowl: #d98a2b;
-  --c-casserole: #8a5cc4;
+  --c-mediterranean: #2a9d9d;
+  --c-asian: #8a5cc4;
 }
 
 * { box-sizing: border-box; }
@@ -92,6 +93,35 @@ main {
   color: #fff;
   font-weight: 600;
 }
+
+.pantry-box {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.pantry-box summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  list-style: none;
+}
+.pantry-box summary::-webkit-details-marker { display: none; }
+.pantry-box summary small { color: var(--muted); font-weight: 400; }
+.pantry-hint { color: var(--muted); font-size: 0.82rem; margin: 10px 0 8px; }
+.pantry-input {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  color: var(--ink);
+}
+.pantry-input:focus { outline: none; border-color: var(--accent); }
+.pantry-suggest { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pantry-suggest .chip { font-size: 0.82rem; padding: 5px 11px; }
 
 .primary-btn {
   width: 100%;
@@ -198,7 +228,8 @@ main {
 .tag-italian { background: var(--c-italian); }
 .tag-american { background: var(--c-american); }
 .tag-ricebowl { background: var(--c-ricebowl); }
-.tag-casserole { background: var(--c-casserole); }
+.tag-mediterranean { background: var(--c-mediterranean); }
+.tag-asian { background: var(--c-asian); }
 
 /* ---------- Swaps ---------- */
 .swaps-title { font-size: 1.05rem; margin: 24px 0 10px; }

@@ -13,6 +13,8 @@ const els = {
   ifMode: document.getElementById("ifMode"),
   blackstoneOnly: document.getElementById("blackstoneOnly"),
   cuisineChips: document.getElementById("cuisineChips"),
+  pantryInput: document.getElementById("pantryInput"),
+  pantrySuggest: document.getElementById("pantrySuggest"),
   generateBtn: document.getElementById("generateBtn"),
   reshuffleBtn: document.getElementById("reshuffleBtn"),
   planSection: document.getElementById("planSection"),
@@ -36,8 +38,16 @@ let state = {
     kidOnly: false,
     ifMode: false,
     blackstoneOnly: false,
+    pantry: [],       // ingredients the user already has (pantry-first mode)
   },
 };
+
+// Quick-add suggestions for the pantry box.
+const COMMON_PANTRY = [
+  "ground beef", "chicken breast", "white rice", "pasta", "tortillas",
+  "shredded cheese", "eggs", "onion", "bell pepper", "black beans",
+  "marinara sauce", "soy sauce", "frozen vegetables", "garlic",
+];
 
 // ---------------------------------------------------------------------------
 // Persistence
@@ -83,6 +93,22 @@ function matchesFilters(recipe) {
   return true;
 }
 
+// Meaningful (non-staple) ingredient names for a recipe, lowercased.
+function getKeyIngredients(recipe) {
+  return recipe.ingredients.filter((i) => !i.staple).map((i) => i.item.toLowerCase());
+}
+
+// Normalized list of pantry terms the user typed.
+function pantryTerms() {
+  return state.filters.pantry.map((s) => s.toLowerCase().trim()).filter(Boolean);
+}
+
+// Loose match: pantry term contained in the ingredient name or vice versa.
+function ingredientMatchesPantry(name) {
+  const n = name.toLowerCase();
+  return pantryTerms().some((t) => n.includes(t) || t.includes(n));
+}
+
 // ---------------------------------------------------------------------------
 // Generation
 // ---------------------------------------------------------------------------
@@ -97,25 +123,44 @@ function generatePlan() {
     return false;
   }
 
-  // Spread cuisines so the week feels varied: round-robin pick from shuffled
-  // per-cuisine buckets before falling back to whatever's left.
-  const buckets = {};
-  shuffle(pool).forEach((r) => {
-    (buckets[r.cuisine] = buckets[r.cuisine] || []).push(r);
-  });
-
+  // Greedy build that balances three goals each day:
+  //   1. Pantry-first — favor meals using ingredients you already have.
+  //   2. Variety — a bonus for a cuisine not yet on the plan, and a penalty for
+  //      a third+ meal of the same cuisine, so the week spans ~6 cuisines.
+  //   3. Ingredient overlap — favor meals sharing ingredients with the week so
+  //      far, so you buy and waste less.
+  // A small random term keeps successive weeks from looking identical. Weights
+  // were tuned so a no-pantry week averages ~6 cuisines while still trimming the
+  // shopping list, and a pantry-first week pulls in matching meals strongly.
+  const W = { pantry: 3, overlap: 1.2, newCuisine: 4, repeatPenalty: -2 };
+  const terms = pantryTerms();
   const picked = [];
-  const cuisineKeys = shuffle(Object.keys(buckets));
-  let exhausted = false;
-  while (picked.length < 7 && !exhausted) {
-    exhausted = true;
-    for (const key of cuisineKeys) {
-      if (buckets[key].length) {
-        picked.push(buckets[key].shift());
-        exhausted = false;
-        if (picked.length === 7) break;
+  const used = new Set();          // non-staple ingredients already on the plan
+  const cuisineCount = {};
+  let candidates = [...pool];
+
+  for (let day = 0; day < 7 && candidates.length; day++) {
+    let best = null;
+    let bestScore = -Infinity;
+    for (const r of candidates) {
+      const keys = getKeyIngredients(r);
+      const pantryHits = terms.length
+        ? keys.filter((k) => terms.some((t) => k.includes(t) || t.includes(k))).length
+        : 0;
+      const overlap = keys.filter((k) => used.has(k)).length;
+      const count = cuisineCount[r.cuisine] || 0;
+      const varietyBonus = count === 0 ? W.newCuisine : count >= 2 ? W.repeatPenalty : 0;
+      const score =
+        pantryHits * W.pantry + overlap * W.overlap + varietyBonus + Math.random() * 0.6;
+      if (score > bestScore) {
+        bestScore = score;
+        best = r;
       }
     }
+    picked.push(best);
+    cuisineCount[best.cuisine] = (cuisineCount[best.cuisine] || 0) + 1;
+    getKeyIngredients(best).forEach((k) => used.add(k));
+    candidates = candidates.filter((r) => r !== best);
   }
 
   state.planIds = picked.map((r) => r.id);
@@ -252,7 +297,10 @@ function renderGrocery() {
     const rows = grouped[cat]
       .map((entry) => {
         const key = entry.item.toLowerCase();
-        const isChecked = !!state.checked[key];
+        // Default pantry matches to checked unless the user has explicitly toggled.
+        const isChecked = Object.prototype.hasOwnProperty.call(state.checked, key)
+          ? state.checked[key]
+          : ingredientMatchesPantry(entry.item);
         const overlap =
           entry.uses.size > 1
             ? `<span class="overlap" title="${[...entry.uses].join(", ")}">×${entry.uses.size} meals</span>`
@@ -341,13 +389,32 @@ function toggleCuisine(key) {
 }
 
 // ---------------------------------------------------------------------------
+// Pantry-first input
+// ---------------------------------------------------------------------------
+function renderPantrySuggest() {
+  const have = pantryTerms();
+  els.pantrySuggest.innerHTML = COMMON_PANTRY
+    .filter((c) => !have.some((t) => c.includes(t) || t.includes(c)))
+    .map((c) => `<button class="chip" data-add="${c}">+ ${c}</button>`)
+    .join("");
+}
+
+function setPantryFromText(text) {
+  state.filters.pantry = text.split(",").map((s) => s.trim()).filter(Boolean);
+  save();
+  renderPantrySuggest();
+}
+
+// ---------------------------------------------------------------------------
 // Wire up events
 // ---------------------------------------------------------------------------
 function syncControlsFromState() {
   els.kidOnly.checked = state.filters.kidOnly;
   els.ifMode.checked = state.filters.ifMode;
   els.blackstoneOnly.checked = state.filters.blackstoneOnly;
+  els.pantryInput.value = state.filters.pantry.join(", ");
   renderCuisineChips();
+  renderPantrySuggest();
 }
 
 function init() {
@@ -372,6 +439,16 @@ function init() {
   els.cuisineChips.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-cuisine]");
     if (btn) toggleCuisine(btn.dataset.cuisine);
+  });
+
+  // Pantry-first: free-text input plus tap-to-add suggestions.
+  els.pantryInput.addEventListener("input", (e) => setPantryFromText(e.target.value));
+  els.pantrySuggest.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-add]");
+    if (!btn) return;
+    const list = [...state.filters.pantry, btn.dataset.add];
+    els.pantryInput.value = list.join(", ");
+    setPantryFromText(els.pantryInput.value);
   });
 
   const doGenerate = () => {

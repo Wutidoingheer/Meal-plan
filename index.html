@@ -36,8 +36,19 @@
         <div id="cuisineChips" class="chips"></div>
       </fieldset>
 
+      <details class="pantry-box" id="pantryBox">
+        <summary>🥫 Pantry-first <small>— build the week around what you have</small></summary>
+        <p class="pantry-hint">List ingredients you already have, separated by commas. The
+          generator will favor meals that use them, and they'll come pre-checked on the
+          grocery list.</p>
+        <textarea id="pantryInput" class="pantry-input" rows="3"
+          placeholder="e.g. ground beef, rice, tortillas, cheddar, frozen peas"></textarea>
+        <div class="pantry-suggest" id="pantrySuggest"></div>
+      </details>
+
       <button id="generateBtn" class="primary-btn">🎲 Generate the week</button>
-      <p class="filter-note" id="filterNote">No seafood · no berries — always filtered out.</p>
+      <p class="filter-note" id="filterNote">No seafood · no berries — always filtered out. The
+        generator also favors weeks where meals share ingredients, so you buy &amp; waste less.</p>
     </section>
 
     <!-- Weekly plan -->
