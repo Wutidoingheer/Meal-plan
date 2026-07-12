@@ -9,12 +9,19 @@ whiteboard calendar.
 
 - **Generate a week** of 7 dinners with one tap, spread across ~6 cuisines for
   variety.
-- **76 recipes** and growing.
+- **106 recipes** and growing.
+- **Cooking-method filter** — Blackstone/flattop, stovetop, oven, sheet pan,
+  slow cooker, Instant Pot, air fryer, grill. Every meal shows its method.
+- **Keep a meal** 🔒 — lock the dinners you love so a reshuffle leaves them in
+  place and only regenerates the rest.
+- **Rest a meal** 💤 — mark one to sit out the next few weeks so you don't repeat
+  it too soon; bring it back any time.
+- **Swap picker** — tap "Swap" to see a list of alternatives (sorted so meals
+  reusing this week's ingredients come first) before you replace a night.
 - **Pantry-first mode** — list what you already have and the generator builds the
   week around it (and pre-checks those items on the grocery list).
 - **Cost & efficiency** — the generator also favors weeks where meals share
   ingredients, so you buy less and waste less.
-- **Swap ideas** — a few extra meals to mix in, plus per-day swapping.
 - **Full recipes** — ingredients, steps, time, calories, servings.
 - **Grocery list** grouped by aisle, with checkboxes so you only buy what's
   missing. Items used in more than one meal are flagged (×N meals) so you don't
@@ -26,8 +33,8 @@ whiteboard calendar.
 - **Cuisine filters** — Mexican, Italian, American, Rice Bowls, Mediterranean,
   Asian.
 - **No seafood, no berries** — always filtered out.
-- Remembers your plan, pantry, and grocery checkmarks between visits
-  (localStorage).
+- Remembers your plan, pantry, kept meals, resting meals, and grocery checkmarks
+  between visits (localStorage).
 
 ## How to use it
 
@@ -54,6 +61,7 @@ recipe needs:
   id: "unique-id",
   name: "Recipe Name",
   cuisine: "mexican" | "italian" | "american" | "ricebowl" | "mediterranean" | "asian",
+  method: "flattop" | "stovetop" | "oven" | "sheetpan" | "slowcooker" | "instantpot" | "airfryer" | "grill", // optional; inferred from steps if omitted
   time: 35,            // minutes
   servings: 4,
   calories: 600,       // per serving, approx

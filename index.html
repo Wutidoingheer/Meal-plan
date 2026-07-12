@@ -36,6 +36,13 @@
         <div id="cuisineChips" class="chips"></div>
       </fieldset>
 
+      <details class="pantry-box" id="methodBox">
+        <summary>🍳 Cooking methods <small>— filter by how you want to cook</small></summary>
+        <p class="pantry-hint">Tap to include or exclude methods (Blackstone, air fryer, slow
+          cooker, sheet pan, grill, and more).</p>
+        <div id="methodChips" class="chips"></div>
+      </details>
+
       <details class="pantry-box" id="pantryBox">
         <summary>🥫 Pantry-first <small>— build the week around what you have</small></summary>
         <p class="pantry-hint">List ingredients you already have, separated by commas. The
@@ -61,6 +68,16 @@
 
       <h3 class="swaps-title">Need a swap? Try one of these</h3>
       <ul id="swaps" class="swap-list"></ul>
+    </section>
+
+    <!-- Resting meals -->
+    <section id="restingSection" class="resting-section hidden">
+      <div class="section-head">
+        <h2>💤 Resting meals</h2>
+      </div>
+      <p class="grocery-hint">These sit out of the rotation for a few weeks so you don't repeat
+        them too soon. Bring one back any time.</p>
+      <ul id="resting" class="resting-list"></ul>
     </section>
 
     <!-- Grocery list -->

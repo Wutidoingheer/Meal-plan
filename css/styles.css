@@ -327,6 +327,45 @@ main {
 /* ---------- Footer ---------- */
 .app-footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 20px; }
 
+/* ---------- Locked / kept meals ---------- */
+.meal-card.locked { outline: 2px solid var(--accent); }
+.meal-card.locked .meal-day { background: var(--accent-dark); }
+.lock-flag { font-size: 0.9rem; }
+
+/* ---------- Swap picker (in modal) ---------- */
+.picker-surprise { margin: 4px 0 12px; }
+.picker-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.picker-row {
+  width: 100%;
+  text-align: left;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.picker-row:active { background: #f4ece3; }
+.picker-name { font-weight: 600; }
+.picker-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.picker-meta small { color: var(--muted); }
+
+/* ---------- Resting meals ---------- */
+.resting-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.resting-item {
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.resting-item small { color: var(--muted); }
+
 .hidden { display: none !important; }
 
 @media (min-width: 520px) {
