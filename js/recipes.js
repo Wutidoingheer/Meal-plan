@@ -36,14 +36,13 @@ const CATEGORY_LABELS = {
 
 // Cooking methods. Recipes may set `method` explicitly; older ones are inferred
 // from their steps at runtime (see getMethod in app.js).
-const METHOD_ORDER = ["flattop", "stovetop", "oven", "sheetpan", "slowcooker", "instantpot", "airfryer", "grill"];
+const METHOD_ORDER = ["flattop", "stovetop", "oven", "sheetpan", "slowcooker", "airfryer", "grill"];
 const METHOD_LABELS = {
   flattop: "🔥 Blackstone / Flattop",
   stovetop: "🍳 Stovetop",
   oven: "🔵 Oven / Baked",
   sheetpan: "🟩 Sheet Pan",
   slowcooker: "🍲 Slow Cooker",
-  instantpot: "⚡ Instant Pot",
   airfryer: "🌀 Air Fryer",
   grill: "🍢 Grill",
 };
@@ -2539,110 +2538,6 @@ const RECIPES = [
     ],
   },
 
-  // ---------------- INSTANT POT ----------------
-  {
-    id: "instant-pot-beef-and-broccoli",
-    name: "Instant Pot Beef & Broccoli",
-    cuisine: "asian",
-    method: "instantpot",
-    time: 35,
-    servings: 4,
-    calories: 560,
-    kidFriendly: true,
-    blackstone: false,
-    ifTip: "Serve over cauliflower rice and use less brown sugar.",
-    ingredients: [
-      { item: "flank steak", qty: 1.5, unit: "lb", category: "meat" },
-      { item: "white rice", qty: 1.5, unit: "cups (dry)", category: "pantry" },
-      { item: "broccoli", qty: 1, unit: "large head", category: "produce" },
-      { item: "soy sauce", qty: 0.33, unit: "cup", category: "pantry" },
-      { item: "brown sugar", qty: 3, unit: "tbsp", category: "pantry", staple: true },
-      { item: "garlic", qty: 3, unit: "cloves", category: "produce" },
-      { item: "cornstarch", qty: 1, unit: "tbsp", category: "pantry", staple: true },
-    ],
-    steps: [
-      "Add sliced beef, soy, brown sugar, and garlic to the Instant Pot; pressure cook 10 min.",
-      "Quick-release, then stir in a cornstarch slurry and steamed broccoli.",
-      "Cook rice and serve.",
-    ],
-  },
-  {
-    id: "instant-pot-chicken-burrito-bowl",
-    name: "Instant Pot Chicken Burrito Bowl",
-    cuisine: "mexican",
-    method: "instantpot",
-    time: 35,
-    servings: 5,
-    calories: 560,
-    kidFriendly: true,
-    blackstone: false,
-    ifTip: "Skip the cheese and add extra lettuce and salsa.",
-    ingredients: [
-      { item: "chicken breast", qty: 1.5, unit: "lb", category: "meat" },
-      { item: "white rice", qty: 1.5, unit: "cups (dry)", category: "pantry" },
-      { item: "black beans", qty: 1, unit: "can", category: "pantry" },
-      { item: "salsa", qty: 1, unit: "cup", category: "pantry" },
-      { item: "corn", qty: 1, unit: "can", category: "pantry" },
-      { item: "shredded cheese", qty: 1, unit: "cup", category: "dairy" },
-      { item: "taco seasoning", qty: 1, unit: "packet", category: "pantry" },
-    ],
-    steps: [
-      "Add chicken, rice, salsa, taco seasoning, and 1.5 cups water to the Instant Pot.",
-      "Pressure cook 12 min; natural release 5 min.",
-      "Shred chicken, stir in beans and corn, and top with cheese.",
-    ],
-  },
-  {
-    id: "instant-pot-spaghetti",
-    name: "Instant Pot Spaghetti",
-    cuisine: "italian",
-    method: "instantpot",
-    time: 30,
-    servings: 5,
-    calories: 590,
-    kidFriendly: true,
-    blackstone: false,
-    ifTip: "Serve a smaller portion with a big green salad.",
-    ingredients: [
-      { item: "ground beef", qty: 1, unit: "lb", category: "meat" },
-      { item: "spaghetti", qty: 1, unit: "lb", category: "pantry" },
-      { item: "marinara sauce", qty: 1, unit: "jar", category: "pantry" },
-      { item: "yellow onion", qty: 1, unit: "", category: "produce" },
-      { item: "garlic", qty: 3, unit: "cloves", category: "produce" },
-      { item: "parmesan", qty: 0.5, unit: "cup", category: "dairy" },
-    ],
-    steps: [
-      "Sauté beef, onion, and garlic using the Instant Pot's sauté mode; drain.",
-      "Break spaghetti in half over the beef, add marinara and 3 cups water (don't stir).",
-      "Pressure cook 8 min, quick-release, stir, and top with parmesan.",
-    ],
-  },
-  {
-    id: "instant-pot-chicken-and-rice",
-    name: "Instant Pot Chicken & Rice",
-    cuisine: "american",
-    method: "instantpot",
-    time: 35,
-    servings: 5,
-    calories: 540,
-    kidFriendly: true,
-    blackstone: false,
-    ifTip: "Bulk up your bowl with extra steamed veggies and less rice.",
-    ingredients: [
-      { item: "chicken breast", qty: 1.5, unit: "lb", category: "meat" },
-      { item: "white rice", qty: 1.5, unit: "cups (dry)", category: "pantry" },
-      { item: "cream of chicken soup", qty: 1, unit: "can", category: "pantry" },
-      { item: "chicken broth", qty: 1.5, unit: "cups", category: "pantry" },
-      { item: "frozen mixed vegetables", qty: 2, unit: "cups", category: "frozen" },
-      { item: "yellow onion", qty: 1, unit: "", category: "produce" },
-    ],
-    steps: [
-      "Add chicken, rice, soup, broth, and onion to the Instant Pot.",
-      "Pressure cook 12 min; natural release 5 min.",
-      "Stir in the vegetables to warm through; shred the chicken.",
-    ],
-  },
-
   // ---------------- SHEET PAN ----------------
   {
     id: "sheet-pan-chicken-fajitas",
@@ -2884,3 +2779,95 @@ const RECIPES = [
     ],
   },
 ];
+
+// ===========================================================================
+// Enrichment pass: punch up seasonings and suggest veggie/side add-ons.
+// This runs once when the file loads so recipes.js stays the single source of
+// truth. It (1) guarantees a salt & pepper baseline, (2) adds cuisine-typical
+// spices to any recipe that isn't already carrying a spice/sauce/packet,
+// (3) adds a real vegetable to meals that have none (so the plate — and the
+// grocery list — is balanced), and (4) attaches "serve with" side ideas.
+// ===========================================================================
+(function enrichRecipes() {
+  // Words that signal a recipe already brings its own seasoning.
+  const SEASONED = /season|cumin|chili|paprika|oregano|cajun|curry|\bginger\b|garlic powder|onion powder|taco|fajita|marinara|teriyaki|\bbbq\b|salsa|enchilada|pesto|buffalo|sweet chili|hoisin|oyster|tonkatsu|shawarma|sriracha|chipotle|adobo|pizza sauce|soy sauce|worcestershire|balsamic|bang bang|bulgogi/i;
+
+  // What counts as "has a vegetable" (aromatics, herbs, and fruit don't).
+  const VEG = ["broccoli", "bell pepper", "peppers", "zucchini", "green bean", "snap pea",
+    "carrot", "spinach", "cabbage", "coleslaw", "cucumber", "tomato", "potato", "corn",
+    "lettuce", "romaine", "mushroom", "celery", "edamame", "stir-fry vegetable",
+    "mixed vegetable", "snap peas"];
+
+  const spice = (item) => ({ item, qty: 1, unit: "to taste", category: "pantry", staple: true });
+  const CUISINE_SPICES = {
+    mexican: [spice("cumin"), spice("chili powder")],
+    italian: [spice("italian seasoning"), spice("garlic powder")],
+    american: [spice("garlic powder"), spice("paprika")],
+    ricebowl: [spice("garlic powder"), spice("ground ginger")],
+    mediterranean: [spice("dried oregano"), spice("garlic powder")],
+    asian: [spice("garlic powder"), spice("ground ginger")],
+  };
+
+  // A simple, grocery-friendly vegetable to add when a meal has none.
+  const veg = (item, unit) => ({ item, qty: 1, unit: unit || "", category: "produce" });
+  const ADDED_VEG = {
+    mexican: veg("side salad kit"),
+    italian: veg("broccoli", "head"),
+    american: veg("broccoli", "head"),
+    ricebowl: veg("broccoli", "head"),
+    mediterranean: veg("cucumber & tomato (for a side salad)"),
+    asian: veg("broccoli", "head"),
+  };
+
+  const SIDE_IDEAS = {
+    mexican: ["Spanish rice", "refried or black beans", "Mexican street corn", "chips, guac & salsa", "a crisp green salad"],
+    italian: ["garlic bread", "a Caesar side salad", "roasted broccoli", "a Caprese salad", "sautéed green beans"],
+    american: ["a side salad", "roasted vegetables", "corn on the cob", "steamed green beans", "creamy coleslaw"],
+    ricebowl: ["steamed edamame", "a quick cucumber salad", "extra steamed broccoli", "a sesame slaw", "miso-style soup"],
+    mediterranean: ["a Greek salad", "hummus & warm pita", "roasted zucchini", "lemony rice", "a cucumber-tomato salad"],
+    asian: ["steamed edamame", "a cucumber salad", "extra stir-fried veggies", "a sesame slaw", "veggie spring rolls"],
+  };
+
+  // Stable per-recipe hash so side suggestions don't reshuffle on every render.
+  const hash = (s) => {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return h;
+  };
+
+  RECIPES.forEach((r) => {
+    const names = r.ingredients.map((i) => i.item.toLowerCase());
+    const has = (sub) => names.some((n) => n.includes(sub));
+
+    // (1) Salt & pepper baseline.
+    if (!names.includes("salt")) r.ingredients.push(spice("salt"));
+    if (!has("pepper") || !names.some((n) => /\bpepper\b/.test(n) && !n.includes("bell") && !n.includes("flake"))) {
+      if (!names.some((n) => n === "black pepper" || n === "pepper")) r.ingredients.push(spice("black pepper"));
+    }
+
+    // (2) Cuisine spices for otherwise-bare recipes (skip a spice already covered).
+    const seasoned = r.ingredients.some((i) => SEASONED.test(i.item));
+    if (!seasoned) {
+      (CUISINE_SPICES[r.cuisine] || []).forEach((sp) => {
+        const key = sp.item.toLowerCase();
+        const redundant =
+          has(key) ||
+          (key.includes("garlic") && has("garlic")) ||
+          (key.includes("ginger") && has("ginger"));
+        if (!redundant) r.ingredients.push(sp);
+      });
+    }
+
+    // (3) Add a vegetable if the meal has none.
+    const hasVeg = names.some((n) => VEG.some((v) => n.includes(v)));
+    if (!hasVeg) {
+      const add = ADDED_VEG[r.cuisine];
+      if (add && !has(add.item.toLowerCase())) r.ingredients.push({ ...add });
+    }
+
+    // (4) "Serve with" suggestions — two stable picks from the cuisine's pool.
+    const pool = SIDE_IDEAS[r.cuisine] || SIDE_IDEAS.american;
+    const h = hash(r.id);
+    r.sides = [...new Set([pool[h % pool.length], pool[(h + 2) % pool.length]])];
+  });
+})();

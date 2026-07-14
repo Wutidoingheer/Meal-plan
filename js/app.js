@@ -100,7 +100,6 @@ function inferMethod(recipe) {
   const t = recipe.steps.join(" ").toLowerCase();
   if (/slow cooker|crock/.test(t)) return "slowcooker";
   if (/air fry|air-fry/.test(t)) return "airfryer";
-  if (/instant pot|pressure cook/.test(t)) return "instantpot";
   if (/\bgrill/.test(t)) return "grill";
   if (recipe.blackstone || /flattop|griddle|blackstone/.test(t)) return "flattop";
   if (/preheat oven|\bbake\b|\broast|sheet pan|broil/.test(t)) return "oven";
@@ -260,6 +259,9 @@ function renderPlan() {
       const ifTip = state.filters.ifMode
         ? `<p class="if-tip">💧 IF tip: ${r.ifTip}</p>`
         : "";
+      const sides = r.sides && r.sides.length
+        ? `<p class="sides-line">🥗 Serve with: ${r.sides.join(" · ")}</p>`
+        : "";
       return `
         <li class="meal-card ${locked ? "locked" : ""}" data-id="${r.id}">
           <div class="meal-day">${DAYS[i]}</div>
@@ -271,6 +273,7 @@ function renderPlan() {
             </div>
             <div class="meal-meta">⏱️ ${r.time} min · ${r.calories} cal/serv · serves ${r.servings}</div>
             <div class="badges">${badges}</div>
+            ${sides}
             ${ifTip}
             <div class="meal-actions">
               <button class="link-btn view-recipe" data-id="${r.id}">View recipe →</button>
@@ -496,6 +499,10 @@ function openRecipe(id) {
     })
     .join("");
   const steps = r.steps.map((s) => `<li>${s}</li>`).join("");
+  const sides = r.sides && r.sides.length
+    ? `<h3>🥗 Round it out — serve with</h3>
+       <ul class="modal-sides">${r.sides.map((s) => `<li>${s}</li>`).join("")}</ul>`
+    : "";
 
   els.modalBody.innerHTML = `
     <div class="modal-title-row">
@@ -503,13 +510,14 @@ function openRecipe(id) {
       ${cuisineTag(r.cuisine)}
     </div>
     <p class="modal-meta">⏱️ ${r.time} min · ${r.calories} cal/serving · serves ${r.servings}
-      ${r.blackstone ? " · 🔥 Blackstone-friendly" : ""}
+      · ${METHOD_LABELS[getMethod(r)]}
       ${r.kidFriendly ? " · 👶 Kid-friendly" : ""}</p>
     ${ifTip}
     <h3>Ingredients</h3>
     <ul class="modal-ingredients">${ingredients}</ul>
     <h3>Steps</h3>
-    <ol class="modal-steps">${steps}</ol>`;
+    <ol class="modal-steps">${steps}</ol>
+    ${sides}`;
 
   els.modal.classList.remove("hidden");
   document.body.style.overflow = "hidden";

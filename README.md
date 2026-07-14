@@ -9,9 +9,12 @@ whiteboard calendar.
 
 - **Generate a week** of 7 dinners with one tap, spread across ~6 cuisines for
   variety.
-- **106 recipes** and growing.
+- **102 recipes** and growing, each seasoned properly (salt, pepper, and
+  cuisine-appropriate spices) with a vegetable so the plate is balanced.
+- **"Serve with" suggestions** — every recipe includes side-dish and veggie
+  add-on ideas to round out the meal.
 - **Cooking-method filter** — Blackstone/flattop, stovetop, oven, sheet pan,
-  slow cooker, Instant Pot, air fryer, grill. Every meal shows its method.
+  slow cooker, air fryer, grill. Every meal shows its method.
 - **Keep a meal** 🔒 — lock the dinners you love so a reshuffle leaves them in
   place and only regenerates the rest.
 - **Rest a meal** 💤 — mark one to sit out the next few weeks so you don't repeat
@@ -61,7 +64,7 @@ recipe needs:
   id: "unique-id",
   name: "Recipe Name",
   cuisine: "mexican" | "italian" | "american" | "ricebowl" | "mediterranean" | "asian",
-  method: "flattop" | "stovetop" | "oven" | "sheetpan" | "slowcooker" | "instantpot" | "airfryer" | "grill", // optional; inferred from steps if omitted
+  method: "flattop" | "stovetop" | "oven" | "sheetpan" | "slowcooker" | "airfryer" | "grill", // optional; inferred from steps if omitted
   time: 35,            // minutes
   servings: 4,
   calories: 600,       // per serving, approx
@@ -78,6 +81,11 @@ recipe needs:
 ```
 
 Keep it free of seafood and berries to match our house rules.
+
+You don't need to add salt/pepper, basic spices, a vegetable, or "serve with"
+sides by hand — an enrichment pass at the bottom of `js/recipes.js` fills those
+in automatically (adding a spice only when the recipe isn't already seasoned,
+and a vegetable only when it has none).
 
 ## Project layout
 
